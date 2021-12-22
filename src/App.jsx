@@ -13,9 +13,19 @@ import { useState } from "react";
 
 function App() {
   const [hideControll, setHideControll] = useState(false);
+  const [currentValue, setCurrentValue] = useState(0);
+  const [rangeText, setRangeText] = useState("0:00");
   const [prev, setPrev] = useState(false);
   const [next, setNext] = useState(false);
   const [center, setCenter] = useState(false);
+
+  const onRangeChange = (e) => {
+    const value = e.target.value;
+    const quo = ~~(value / 60);
+    const rem = value % 60;
+    setCurrentValue(value);
+    setRangeText(quo + ":" + rem);
+  };
   return (
     <div className="container">
       <div className="ui_container">
@@ -107,10 +117,17 @@ function App() {
             </div>
             <div className="music_slider-container">
               <div className="slider">
-                <input type="range" className="range" />
+                <input
+                  onChange={(e) => onRangeChange(e)}
+                  min="0"
+                  max="256"
+                  value={currentValue}
+                  type="range"
+                  className="range"
+                />
               </div>
               <div className="slider_range">
-                <div className="slider_range-left">2:01:00</div>
+                <div className="slider_range-left">{rangeText}:00</div>
                 <div className="slider_range-right">4:16:00</div>
               </div>
             </div>
